@@ -27,7 +27,7 @@ def simulate_games():
 menu = pygame_menu.Menu(gamesettings.MENU_MESSAGE, 900, 900, theme=pygame_menu.themes.THEME_DARK)
 
 
-menu.add.button('Simulate 200 games (easy VS insane)', simulate_games)
+# menu.add.button('Simulate 200 games (easy VS insane)', simulate_games)
 menu.add.button('Play against human', start_the_game, diff=0, accept_kwargs=True)
 menu.add.button('Play against easy AI', start_the_game, diff=1, accept_kwargs=True)
 menu.add.button('Play against insane AI', start_the_game, diff=2, accept_kwargs=True)

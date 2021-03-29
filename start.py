@@ -4,7 +4,7 @@ Repository: https://www.github.com/bloobsky/tictactoe/
 Documentation: https://www.github.com/bloobsky/tictactoe/README.md
 
 """
-import pygame, pygame_menu, sys, random, time
+import pygame, sys, random, time
 import numpy
 # import local
 import gamesettings
@@ -25,7 +25,7 @@ def create_lines(): # function that draw lines for the game
 board = pygame.display.set_mode( (gamesettings.BOARDWIDTH, gamesettings.BOARDHEIGHT) )
 board.fill( gamesettings.BOARDCOLOR )
 
-backgroundBoard = numpy.zeros ( (gamesettings.BOARDROWS, gamesettings.BOARDCOLUMNS ) )
+backgroundBoard = numpy.zeros ( (gamesettings.BOARDROWS, gamesettings.BOARDCOLUMNS ) ) # populating 3x3 board with zeros 
 
 
 def add_xo():
@@ -43,93 +43,6 @@ def put_xo (row, column, player):
 	 """
 	backgroundBoard[row][column] = player
 
-
-
-def minimax(state, depth, player):
-    """
-    AI function that choice the best move
-    :param state: current state of the board
-    :param depth: node index in the tree (0 <= depth <= 9),
-    but never nine in this case (see iaturn() function)
-    :param player: an human or a computer
-    :return: a list with [the best row, best col, best score]
-    """
-    player = 2 
-    if player == COMP:
-        best = [-1, -1, -infinity]
-    else:
-        best = [-1, -1, +infinity]
-
-    if depth == 0 or game_over(state):
-        score = evaluate(state)
-        return [-1, -1, score]
-
-    for cell in empty_cells(state):
-        x, y = cell[0], cell[1]
-        state[x][y] = player
-        score = minimax(state, depth - 1, -player)
-        state[x][y] = 0
-        score[0], score[1] = x, y
-
-        if player == COMP:
-            if score[2] > best[2]:
-                best = score  # max value
-        else:
-            if score[2] < best[2]:
-                best = score  # min value
-
-    return best
-
-def render(state, c_choice, h_choice):
-    """
-    Print the board on console
-    :param state: current state of the board
-    """
-
-    chars = {
-        -1: h_choice,
-        +1: c_choice,
-        0: ' '
-    }
-    str_line = '---------------'
-
-    print('\n' + str_line)
-    for row in state:
-        for cell in row:
-            symbol = chars[cell]
-            print(f'| {symbol} |', end='')
-        print('\n' + str_line)
-
-def empty_cells(state):
-    """
-    Each empty cell will be added into cells' list
-    :param state: the state of the current board
-    :return: a list of empty cells
-    """
-    cells = []
-
-    for x, row in enumerate(state):
-        for y, cell in enumerate(row):
-            if cell == 0:
-                cells.append([x, y])
-
-    return cells
-
-
-def empty_cells(state):
-    """
-    Each empty cell will be added into cells' list
-    :param state: the state of the current board
-    :return: a list of empty cells
-    """
-    cells = []
-
-    for x, row in enumerate(state):
-        for y, cell in enumerate(row):
-            if cell == 0:
-                cells.append([x, y])
-
-    return cells  
 
 def available(row, column):
 	""" function that checks if place is not already used """
@@ -194,7 +107,8 @@ def reset_screen():
 def randomComputerMove():
 	player = 2
 	mademove = False
-	
+	# game_ends = False
+
 	while not mademove:
 		rowrandom = random.randrange(3)
 		columnrandom = random.randrange(3)
@@ -204,8 +118,9 @@ def randomComputerMove():
 			mademove = True
 			if check_win(player):
 				game_ends = True
-				time.sleep(2) # delay
-				return
+				mademove = True
+				time.sleep(2)
+				return game_ends
 		else:
 			mademove = False
 
@@ -237,6 +152,7 @@ def set_the_game(diff):
 						put_xo( row_clicked, column_clicked, player)
 						if check_win( player ):
 							game_ends = True
+							time.sleep(2)
 						player = player % 2 + 1
 
 						add_xo()
@@ -271,10 +187,10 @@ def set_the_game(diff):
 						if check_win( player ):
 							game_ends = True
 							print('finish')
-							time.sleep(5)
-							return
-
+						
+					if not game_ends:
 						randomComputerMove()
+
 					
 
 					print(backgroundBoard)
@@ -308,7 +224,7 @@ def set_the_game(diff):
 						if check_win( player ):
 							game_ends = True
 							print('finish')
-							return
+							return game_ends
 
 						randomComputerMove()
 					
