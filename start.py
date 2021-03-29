@@ -152,7 +152,6 @@ def set_the_game(diff):
 						put_xo( row_clicked, column_clicked, player)
 						if check_win( player ):
 							game_ends = True
-							time.sleep(2)
 						player = player % 2 + 1
 
 						add_xo()
