@@ -1,6 +1,8 @@
 import pygame, pygame_menu
 import gamesettings
 import start
+import minimax
+
 """ creating menu using pygame_menu module parts are required for it to work """
 pygame.init()
 surface = pygame.display.set_mode(gamesettings.MENU_SIZE)
@@ -16,7 +18,7 @@ def start_the_game(diff): # difficuly
 		pygame.display.update()
 		print(1)
 	else:
-		start.set_the_game(diff)
+		minimax.main()
 		pygame.display.update()
 		print(2)
 
