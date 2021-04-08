@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-from math import inf as infinity
-from random import choice
-import platform
-import time
-from os import system
-
 """
 An implementation of Minimax AI Algorithm in Tic Tac Toe,
 using Python.
@@ -13,6 +6,13 @@ Author: Clederson Cruz
 Year: 2017
 License: GNU GENERAL PUBLIC LICENSE (GPL)
 """
+
+
+from math import inf as infinity
+from random import choice
+import platform
+import time
+from os import system
 
 HUMAN = -1
 COMP = +1
@@ -236,15 +236,15 @@ def human_turn(c_choice, h_choice):
 
     while move < 1 or move > 9:
         try:
-            move = int(input('Use number when 1[top left corner] and 9[bottom right corner'))
-            coord = moves[move]
+            move = int(input('Use number when 1[top left corner] and 9[bottom right corner]'))
+            coord = moves[move] 
             can_move = set_move(coord[0], coord[1], HUMAN)
 
             if not can_move:
-                print('Bad move')
+                print('Place occupied')
                 move = -1
         except (EOFError, KeyboardInterrupt):
-            print('Bye')
+            print('Good Bye')
             exit()
         except (KeyError, ValueError):
             print('Bad choice')
@@ -280,7 +280,7 @@ def main():
     clean()
     while first != 'Y' and first != 'N':
         try:
-            first = input('First to start?[y/n]: ').upper()
+            first = input('Do you wanna start first ?[y/n]: ').upper()
         except (EOFError, KeyboardInterrupt):
             print('Bye')
             exit()
@@ -312,6 +312,7 @@ def main():
         render(board, c_choice, h_choice)
         print('DRAW!')
 
+    time.sleep(5) 
     exit()
 
 
